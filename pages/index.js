@@ -27,12 +27,22 @@ const Index = () => {
         
     }
 
-    const handleDelete = (todo) => {
-        const updatedArr = todoList.filter(todoItem => todoList.indexOf(todoItem) != todoList.indexOf(todo))
+    const handleDelete = (todo, idx) => {
+        //const updatedArr = todoList.filter(todoItem => todoList.indexOf(todoItem) != todoList.indexOf(todo))
+        let newArray = [...todoList]
+        newArray.splice(idx, 1)
 
-        setTodoList(updatedArr)
+        setTodoList(newArray)
     }
     
+    const handleEdit = (todo) => {
+        todoList.splice(todoList.indexOf(todo), 1, userInput)
+
+        setUserInput('')
+        setTodoList(todoList)
+    }
+   
+   
     return (
         <div>
             <h3>NextJS Todo List</h3>
@@ -44,8 +54,11 @@ const Index = () => {
                     todoList.length >=1 ? todoList.map((todo, idx) => {
                         return <li key={idx}>{todo}<button onClick={(e) => {
                             e.preventDefault()
-                            handleDelete(todo)
-                        }}>Delete</button></li>
+                            handleDelete(todo, idx)
+                        }}>Delete</button><button onClick={(e) => {
+                            e.preventDefault()
+                            handleEdit(todo)
+                        }}>Edit</button></li>
                     })
                     : 'Enter a todo item'
                 }
